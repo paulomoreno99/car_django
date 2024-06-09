@@ -2,18 +2,17 @@ from django.shortcuts import render
 from cars.models import Car
 
 def car_view(request):
-    #print(request)
-    print(request.GET)
-    #print(request.GET).get('search')
-    #cars = Car.objects.filter(factory_year=2015)
-    cars = Car.objects.all() # Seleciona todos os registros da tebela
-    #print(cars[1])
+    
+    cars = Car.objects.all().order_by('model')
+    search = request.GET.get('search')
 
+    if search:
+        cars = cars.filter(model__icontains=search)
 
 
     return render(
         request,
         'cars.html',
         {'cars': cars })
-        #{'cars': {'model': 'Kwid 2024'}})
+       
 
